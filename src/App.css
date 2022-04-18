@@ -1,0 +1,72 @@
+/* GENERAL */
+.flex{
+  display: flex;
+}
+.space-between{
+  justify-content: space-between;
+}
+.align {
+  align-items: center;
+}
+.justify{
+  justify-content: center;
+}
+.relative {position: relative;}
+/* HOME  */
+.homeBg {
+  z-index: -1;
+  position: fixed;
+  background: white url('../public/doctor-5569298.png') no-repeat center bottom;
+  height: 100%;
+  height: 100vh;
+  width: 100%;
+
+}
+/* FORM  */
+.form-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  padding-bottom: 20px;
+  border: 1px solid grey;
+}
+
+input {
+  padding: 10px;
+  margin: 10px;
+  border-radius: 10px;
+  border: 1px solid grey;
+  font-size: 15px;
+}
+
+.reg-btn {
+  padding: 10px 20px;
+margin: 10px
+}
+.reg-loading{
+  margin:0 44px
+}
+.reg-success{
+  position:absolute;
+  bottom:5px;
+  
+}
+.alert{
+  margin-bottom: 0;
+}
+.edit-btns{
+  position: absolute;
+  right: 5px;
+  top:5px
+}
+@media screen and (max-width: 767px) {
+  .form-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  input {
+    font-size: 15px;
+  }
+}

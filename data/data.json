@@ -1,0 +1,48 @@
+{
+    "data": [
+      {
+        "question": "¿Un Hook es una función especial que permite 'conectarse' a características de React.?",
+        "choices": [
+          "Falso",
+          "Verdadero"
+        ],
+        "answer": "Verdadero"
+      },
+      {
+        "question": "Uno de los problemas de los componentes de clase es:",
+        "choices": [
+          "Las propiedades",
+          "La lógica de estado no es fácil de reutilizar.",
+          "Menor cantidad de código",
+          "Ninguna de las anteriores es verdadera"
+        ],
+        "answer": "La lógica de estado no es fácil de reutilizar."
+      },
+      {
+        "question": "Uno de los beneficios del uso de los hooks es:",
+        "choices": [
+          "Menor cantidad de código.",
+          "Código más organizado.",
+          "Mayor facilidad para testear",
+          "Todas las anteriores son verdaderas"
+        ],
+        "answer": "Todas las anteriores son verdaderas"
+      },
+      {
+        "question": "useState Declara variables de estado y las actualiza.",
+        "choices": [
+          "Falso",
+          "Verdadero"
+        ],
+        "answer": "Verdadero"
+      },
+      {
+        "question": "Permite incluir y manejar efectos secundarios.",
+        "choices": [
+          "useState",
+          "useEffect"
+        ],
+        "answer": "useEffect"
+      }
+    ]
+  }
