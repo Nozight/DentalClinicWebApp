@@ -6,7 +6,7 @@ import Dentists from './DentalClinic/Dentists/Dentists';
 import Patients from './DentalClinic/Patients/Patients';
 import Appointments from './DentalClinic/Appointments/Appointments';
 
-function ViewDentalClinic() {
+function App() {
     // const [dentists,setDentists] = useState({});
     // const [patients,setPatients] = useState({});
     // const [appointments,setAppointments] = useState({});
@@ -34,4 +34,4 @@ function ViewDentalClinic() {
     }
 
 
-export default ViewDentalClinic;
+export default App;

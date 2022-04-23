@@ -1,17 +1,30 @@
 /* GENERAL */
-.flex{
+.flex {
   display: flex;
 }
-.space-between{
+.d-col{
+  flex-direction: column;
+}
+.space-between {
   justify-content: space-between;
 }
+
 .align {
   align-items: center;
 }
-.justify{
+
+.justify {
   justify-content: center;
 }
-.relative {position: relative;}
+
+.relative {
+  position: relative;
+}
+
+.h-100 {
+  height: 100%;
+}
+
 /* HOME  */
 .homeBg {
   z-index: -1;
@@ -20,8 +33,36 @@
   height: 100%;
   height: 100vh;
   width: 100%;
-
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
+
+.welcome {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgb(2, 0, 36);
+  background: linear-gradient(0deg, rgba(2, 0, 36, 1) 0%, rgba(9, 47, 121, 0.7836689466840765) 0%, rgba(2, 177, 232, 1) 100%, rgba(0, 212, 255, 1) 100%);
+  border-radius: 10px;
+  text-align: center;
+  min-height: 350px;
+}
+
+.welcome-btns-secc {
+  display: flex;
+}
+
+@media screen and (max-width: 420px) {
+  .welcome {
+    
+    border-radius: 0;
+  }
+}
+
 /* FORM  */
 .form-container {
   display: flex;
@@ -42,24 +83,28 @@ input {
 
 .reg-btn {
   padding: 10px 20px;
-margin: 10px
+  margin: 10px
 }
-.reg-loading{
-  margin:0 44px
+
+.reg-loading {
+  margin: 0 44px
 }
-.reg-success{
-  position:absolute;
-  bottom:5px;
-  
+
+.reg-success {
+  position: absolute;
+  bottom: 5px;
 }
-.alert{
+
+.alert {
   margin-bottom: 0;
 }
-.edit-btns{
+
+.edit-btns {
   position: absolute;
   right: 5px;
-  top:5px
+  top: 5px
 }
+
 @media screen and (max-width: 767px) {
   .form-container {
     display: flex;
@@ -69,4 +114,13 @@ margin: 10px
   input {
     font-size: 15px;
   }
+}
+/* LIST */
+.list-item{
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.align-self{
+  align-self: flex-end;
 }

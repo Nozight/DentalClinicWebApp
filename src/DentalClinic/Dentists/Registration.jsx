@@ -8,25 +8,45 @@ function Registration() {
   const registerDentist = (e) => {
     e.preventDefault();
     setRegLoading(true)
-    axios.post('http://localhost:8080/api/dentist', {
+
+    var raw = JSON.stringify({
       name: e.target[0].value,
       last_name: e.target[1].value,
-      enrollment: e.target[2].value,
-    })
-      .then(function (response) {
-        setSuccess(true);
+      enrollment: e.target[2].value
+    });
+
+    var requestOptions = {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json; charset=UTF-8",
+        "Authorization": "Bearer " + localStorage.getItem("jwt")
+      },
+      body: raw,
+      redirect: 'follow'
+    };
+
+    fetch("http://localhost:8080/api/dentist", requestOptions)
+      .then(response => response.text())
+      .then(result => {
+        setSuccess(true)
         setRegLoading(false)
         setTimeout(() => {
           setSuccess(false);
         }, 3000);
+        console.log(result)
+        console.log(localStorage.getItem("jwt"))
+
       })
-      .catch(function (error) {
+      .catch(error => {
+        console.log('error', error)
         console.log(error);
         setFailedConn(true)
         setRegLoading(false)
         setTimeout(() => {
           setFailedConn(false);
-        }, 6000);
+        }, 6000); 
+        setRegLoading(true)
+        console.log(localStorage.getItem("jwt"))
       });
   }
   return (
@@ -45,15 +65,14 @@ function Registration() {
               </div> :
               <button type="submit" className='btn btn-primary reg-btn'>Register</button>}
           </div>
-        
+        </div>
 
         {/* ERROR / SUCSESS */}
         {regSuccess ? <div className='relative'><div className='flex align justify'><span className="badge bg-success reg-success">Registration Successful</span></div></div> : null}
         {failedConn ?
-          <div class="alert alert-warning" role="alert">
+          <div className="alert alert-warning" role="alert">
             Couldn´t connect with the database 🤖
           </div> : null}
-          </div>
       </form>
     </div>
   )

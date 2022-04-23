@@ -1,22 +1,34 @@
 import { useEffect, useState } from "react";
-import axios from 'axios';
+import { ListItem } from "./ListItem";
+
 const List = () => {
     //SEARCH ALL
-    const [list, setList] = useState([{ name: "Name", last_name: "Lastname", enrollment: "-" }]);
-    const [backUp, setBackUp] = useState([{ name: "Name", last_name: "Lastname", enrollment: "-" }]) //in case filter() dosent find anything and has already changed the og list
+    const [list, setList] = useState([{ name: "Name", last_name: "Lastname", enrollment: "123456" }, { name: "Name", last_name: "Lastname", enrollment: "123456" }, { name: "Name", last_name: "Lastname", enrollment: "123456" }]);
+    const [backUp, setBackUp] = useState([{ name: "Name", last_name: "Lastname", enrollment: "123456" }, { name: "Name", last_name: "Lastname", enrollment: "123456" }, { name: "Name", last_name: "Lastname", enrollment: "123456" }]) //in case filter() dosent find anything and has already changed the og list
     // const [loading, setLoading] = useState(false); // Not enough time response to need it
     const refresh = () => {
-        // setLoading(true);
-        axios.get('http://localhost:8080/api/dentist/all')
-            .then(response => {
-                setList(response.data);
-                setBackUp(response.data);
-                //setLoading(false);
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + localStorage.getItem("jwt"));
+
+        var requestOptions = {
+            method: 'GET',
+            headers: myHeaders,
+            redirect: 'follow'
+        };
+
+        fetch("http://localhost:8080/api/dentist/all", requestOptions)
+            .then(response => response.json())
+            .then(result => {
+                console.log(result)
+                console.log("esto deberia ser una lista: " + list);
+                setList(result)
+                setBackUp(result)
+
             })
             .catch(error => {
-                console.log(error);
                 //setLoading(false);
-
+                console.log('error', error)
+                console.log(localStorage.getItem("jwt"));
             });
     }
     useEffect(() => {
@@ -29,20 +41,72 @@ const List = () => {
     const filter = () => {
         console.log("searchBar update");
 
-        const filtredList = list.filter(dentist => dentist.name.toLowerCase() === searchBar.toLowerCase())
+        const filtredList = list.filter(dentist => dentist.name.toLowerCase() === searchBar.toLowerCase())//probar con ([_, v]) => v.name.includes(searchStr)
         filtredList.length === 0 ? setList(backUp) : setList(filtredList);
     }
     useEffect(() => {
         filter()
     }, [searchBar])
     //EDIT 
-    const editDentist = () =>{
+    const editDentist = (e) => {
+        e.preventDefault()
 
+        let enrollment = e.target.enrollment.value
+
+        // GETTING DENTIST
+        var getHeaders = new Headers();
+        getHeaders.append("Authorization", "Bearer " + localStorage.getItem("jwt"));
+
+        var getRequestOptions = {
+            method: 'GET',
+            headers: getHeaders,
+            redirect: 'follow'
+        };
+
+        var oldDentist = {};
+
+        fetch(`http://localhost:8080/api/dentist/enrollment?enrollment=${enrollment}`, getRequestOptions)
+            .then(response => response.json())
+            .then(result => {
+                oldDentist = result;
+                console.log(result)
+                dentistId = oldDentist.id;
+                updateDentist()
+            })
+            .catch(error => console.log('error', error));
+        //UPDATING DENTIST 
+        var dentistId = 0;
+        var putHeaders = new Headers();
+        putHeaders.append("Authorization", "Bearer " + localStorage.getItem("jwt"));
+        putHeaders.append("Content-Type", "application/json");
+
+        var raw = JSON.stringify({
+            "id": dentistId,
+            "name": `${e.target.name.value}`,
+            "last_name": `${e.target.lastName.value}`,
+            "enrollment": e.target.enrollment.value
+        });
+
+        var requestOptions = {
+            method: 'PUT',
+            headers: putHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+        const updateDentist = () => {
+            fetch("http://localhost:8080/api/dentist", requestOptions)
+                .then(response => response.text())
+                .then(result => {
+                    console.log(raw);
+                    console.log(result)
+                })
+                .catch(error => {
+                    console.log(raw);
+                    console.log('error', error)
+                });
+        }
     }
-    //DELETE 
-    const deleteDentist = () => {
-        
-    }
+    
     return (
 
         <div className="card" style={{ width: "100%" }}>
@@ -71,22 +135,7 @@ const List = () => {
                 <span className="visually-hidden">Loading...</span>
               </div>: */}
                     {list.map((dentist, i) => {
-                        return (
-                            <li key={"dentist" + i.toString()} className="list-group-item d-flex justify-content-between align-items-start relative">
-                                <div className="ms-2 me-auto ">
-                                    <div className="fw-bold">{dentist.name + " " + dentist.last_name}</div>
-                                    <ul>
-                                        <li>Enrollment: {dentist.enrollment}</li>
-
-                                    </ul>
-                                    <div className="edit-btns">
-                                        <button type="button" className="btn btn-warning mx-1 my-2" onClick={editDentist}><img src='/assets/icons/edit_black_24dp.svg' alt="update" /></button>
-                                        <button type="button" className="btn btn-danger mx-1 my-2" onClick={deleteDentist}><img src='/assets/icons/delete_black_24dp.svg' alt="delete" /></button>
-                                    </div>
-
-                                </div>
-                            </li>
-                        )
+                        return <ListItem key={"itemList" + i.toString()} dentist={dentist} i={i} editMethod={editDentist} />
 
                     })
 
