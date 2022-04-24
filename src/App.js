@@ -26,7 +26,7 @@ function App() {
                 <Route path="/" element={<Home/>}/>
                 <Route path="/dentists" element={ <Dentists/>}/> 
                 <Route path="/patients" element={<Patients/>}/>
-                <Route path="/patients" element={<Appointments/>}/>
+                <Route path="/appointments" element={<Appointments/>}/>
             </Routes>
             </BrowserRouter>
         </div>

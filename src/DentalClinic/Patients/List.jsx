@@ -3,8 +3,8 @@ import { ListItem } from "./ListItem";
 
 const List = () => {
     //SEARCH ALL
-    const [list, setList] = useState([{ name: "Name", last_name: "Lastname", enrollment: "123456" }, { name: "Name", last_name: "Lastname", enrollment: "123456" }, { name: "Name", last_name: "Lastname", enrollment: "123456" }]);
-    const [backUp, setBackUp] = useState([{ name: "Name", last_name: "Lastname", enrollment: "123456" }, { name: "Name", last_name: "Lastname", enrollment: "123456" }, { name: "Name", last_name: "Lastname", enrollment: "123456" }]) //in case filter() dosent find anything and has already changed the og list
+    const [list, setList] = useState([{ name: "Name", last_name: "Lastname", dni: "4100568", admission_date: "2022-01-01", address: { street: "street", number: 123, locality: "locality", province: "province" } }, { name: "Name", last_name: "Lastname", dni: "4100568", admission_date: "2022-01-01", address: { street: "street", number: 123, locality: "locality", province: "province" } }, { name: "Name", last_name: "Lastname", dni: "4100568", admission_date: "2022-01-01", address: { street: "street", number: 123, locality: "locality", province: "province" } }]);
+    const [backUp, setBackUp] = useState([{ name: "Name", last_name: "Lastname", dni: "4100568", admission_date: "2022-01-01", address: { street: "street", number: 123, locality: "locality", province: "province" } }, { name: "Name", last_name: "Lastname", dni: "4100568", admission_date: "2022-01-01", address: { street: "street", number: 123, locality: "locality", province: "province" } }, { name: "Name", last_name: "Lastname", dni: "4100568", admission_date: "2022-01-01", address: { street: "street", number: 123, locality: "locality", province: "province" } }]) //in case filter() dosent find anything and has already changed the og list
     // const [loading, setLoading] = useState(false); // Not enough time response to need it
     const refresh = () => {
         var myHeaders = new Headers();
@@ -16,7 +16,7 @@ const List = () => {
             redirect: 'follow'
         };
 
-        fetch("http://localhost:8080/api/dentist/all", requestOptions)
+        fetch("http://localhost:8080/api/patient/all", requestOptions)
             .then(response => response.json())
             .then(result => {
                 console.log(result)
@@ -40,19 +40,20 @@ const List = () => {
     const filter = () => {
         console.log("searchBar update");
 
-        const filtredList = list.filter(dentist => dentist.name.toLowerCase() === searchBar.toLowerCase())//probar con ([_, v]) => v.name.includes(searchStr)
+        const filtredList = list.filter(patient => patient.name.toLowerCase() === searchBar.toLowerCase())//probar con ([_, v]) => v.name.includes(searchStr)
         filtredList.length === 0 ? setList(backUp) : setList(filtredList);
     }
     useEffect(() => {
         filter()
     }, [searchBar])
+
     //EDIT 
-    const editDentist = (e) => {
+    const editPatient = (e) => {
         e.preventDefault()
 
-        let enrollment = e.target.enrollment.value
+        let dni = e.target.dni.value
 
-        // GETTING DENTIST
+        // GETTING PATIENT
         var getHeaders = new Headers();
         getHeaders.append("Authorization", "Bearer " + localStorage.getItem("jwt"));
 
@@ -62,42 +63,52 @@ const List = () => {
             redirect: 'follow'
         };
 
-        var oldDentist = {};
+        var oldPatient = {};
 
-        fetch(`http://localhost:8080/api/dentist/enrollment?enrollment=${enrollment}`, getRequestOptions)
+        fetch(`http://localhost:8080/api/patient/dni?dni=${dni}`, getRequestOptions)
             .then(response => response.json())
             .then(result => {
-                oldDentist = result;
+                oldPatient = result;
                 console.log(result)
-                dentistId = oldDentist.id;
-                updateDentist()
+                patientId = oldPatient.id;
+                updatePatient()
             })
             .catch(error => console.log('error', error));
-        //UPDATING DENTIST 
-        var dentistId = 0;
-        var putHeaders = new Headers();
+
+
+        //UPDATING PATIENT 
+        var patientId = 0;
+        
+        const updatePatient = () => {
+            var putHeaders = new Headers();
         putHeaders.append("Authorization", "Bearer " + localStorage.getItem("jwt"));
         putHeaders.append("Content-Type", "application/json");
 
-        var raw = JSON.stringify({
-            "id": dentistId,
-            "name": `${e.target.name.value}`,
-            "last_name": `${e.target.lastName.value}`,
-            "enrollment": e.target.enrollment.value
-        });
+            var raw = JSON.stringify({
+                "id": patientId,
+                "name": `${e.target.name.value}`,
+                "last_name": `${e.target.last_name.value}`,
+                "dni": e.target.dni.value,
+                "address": {
+                    "street": `${e.target.street.value}`,
+                    "number": e.target.number.value,
+                    "locality": `${e.target.locality.value}`,
+                    "province": `${e.target.province.value}`
+                }
+            });
 
-        var requestOptions = {
-            method: 'PUT',
-            headers: putHeaders,
-            body: raw,
-            redirect: 'follow'
-        };
-        const updateDentist = () => {
-            fetch("http://localhost:8080/api/dentist", requestOptions)
+            var requestOptions = {
+                method: 'PUT',
+                headers: putHeaders,
+                body: raw,
+                redirect: 'follow'
+            };
+            fetch("http://localhost:8080/api/patient", requestOptions)
                 .then(response => response.text())
                 .then(result => {
                     console.log(raw);
                     console.log(result)
+                    refresh()
                 })
                 .catch(error => {
                     console.log(raw);
@@ -105,13 +116,13 @@ const List = () => {
                 });
         }
     }
-    
+
     return (
 
         <div className="card" style={{ width: "100%" }}>
             {/* SECTION LIST ------------------------------------------------------------------------*/}
             <div className="card-header flex space-between">
-                <h2 className="mt-3">List of Dentists</h2>
+                <h2 className="mt-3">List of Patients</h2>
                 {/* FILTER */}
                 <div className="flex align">
                     <div className="collapse" id="collapseSearch">
@@ -133,8 +144,8 @@ const List = () => {
                 <div className="spinner-border text-info reg-loading" role="status">
                 <span className="visually-hidden">Loading...</span>
               </div>: */}
-                    {list.map((dentist, i) => {
-                        return <ListItem key={"itemList" + i.toString()} dentist={dentist} i={i} editMethod={editDentist} />
+                    {list.map((patient, i) => {
+                        return <ListItem key={"itemList" + i.toString()} patient={patient} i={i} editMethod={editPatient} />
 
                     })
 
