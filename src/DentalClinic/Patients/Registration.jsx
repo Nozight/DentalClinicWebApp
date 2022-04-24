@@ -26,7 +26,7 @@ function Registration() {
       method: 'POST',
       headers: {
         "Content-Type": "application/json; charset=UTF-8",
-        "Authorization": "Bearer " + localStorage.getItem("jwt")
+        "Authorization": "Bearer " + sessionStorage.getItem("jwt")
       },
       body: raw,
       redirect: 'follow'
@@ -41,7 +41,7 @@ function Registration() {
           setSuccess(false);
         }, 3000);
         console.log(result)
-        console.log(localStorage.getItem("jwt"))
+        console.log(sessionStorage.getItem("jwt"))
 
       })
       .catch(error => {
@@ -53,7 +53,7 @@ function Registration() {
           setFailedConn(false);
         }, 6000);
         setRegLoading(true)
-        console.log(localStorage.getItem("jwt"))
+        console.log(sessionStorage.getItem("jwt"))
       });
   }
   return (

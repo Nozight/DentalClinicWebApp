@@ -6,7 +6,7 @@ export function ListItem({ dentist, i, editMethod }) {
     const deleteDentist = () => {
         // GETTING DENTIST
         var getHeaders = new Headers();
-        getHeaders.append("Authorization", "Bearer " + localStorage.getItem("jwt"));
+        getHeaders.append("Authorization", "Bearer " + sessionStorage.getItem("jwt"));
 
         var getRequestOptions = {
             method: 'GET',
@@ -28,7 +28,7 @@ export function ListItem({ dentist, i, editMethod }) {
             .catch(error => console.log('error', error));
         //DELETING DENTIST
         var deleteHeaders = new Headers();
-        deleteHeaders.append("Authorization", "Bearer " + localStorage.getItem("jwt"));
+        deleteHeaders.append("Authorization", "Bearer " + sessionStorage.getItem("jwt"));
 
         var requestOptions = {
             method: 'DELETE',
@@ -63,7 +63,7 @@ console.log();
                 <form action="update" onSubmit={editMethod}>
                     <input id="name" type="text" placeholder="Name"/>
                     <input id="lastName" type="text" placeholder="Lastname"/>
-                    <input id="enrollment" type="number" placeholder="Enrollment"/>
+                    <input id="enrollment" type="number" placeholder={dEnrollment} value={dEnrollment} disabled/>
                     <input type="submit" value="update" className="btn btn-warning"/>
                 </form>
             </div>:

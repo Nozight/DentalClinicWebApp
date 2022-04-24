@@ -20,9 +20,9 @@ export const Login = () => {
             .then(response => response.json())
             .then(data => {
                 console.log(data)
-                localStorage.setItem("jwt", data.jwt)
-                console.log(localStorage.jwt);
-                // window.location.replace("")
+                sessionStorage.setItem("jwt", data.jwt)
+                console.log(sessionStorage.jwt);
+                window.location.replace("")
             })
             
             .catch(error => console.log('error', error));

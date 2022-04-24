@@ -6,7 +6,7 @@ export function ListItem({ patient, i, editMethod}) {
     const deletePatient = () => {
         // GETTING PATIENT
         var getHeaders = new Headers();
-        getHeaders.append("Authorization", "Bearer " + localStorage.getItem("jwt"));
+        getHeaders.append("Authorization", "Bearer " + sessionStorage.getItem("jwt"));
 
         var getRequestOptions = {
             method: 'GET',
@@ -29,7 +29,7 @@ export function ListItem({ patient, i, editMethod}) {
             .catch(error => console.log('error', error));
         //DELETING DENTIST
         var deleteHeaders = new Headers();
-        deleteHeaders.append("Authorization", "Bearer " + localStorage.getItem("jwt"));
+        deleteHeaders.append("Authorization", "Bearer " + sessionStorage.getItem("jwt"));
 
         var requestOptions = {
             method: 'DELETE',
@@ -85,7 +85,7 @@ export function ListItem({ patient, i, editMethod}) {
                         <div>
                             <div><input required type="text" className="" id="name" placeholder="Name"></input></div>
                             <div><input required type="text" className="" id="last_name" placeholder="LastName"></input></div>
-                            <div><input required type="number" className="" id="dni" placeholder="DNI"></input></div>
+                            <div><input required type="number" className="" id="dni" placeholder={dni} value={dni} dissabled></input></div>
 
                             <div className='addressForm'>
                                 <div><input required type="text" className="" id="street" placeholder="Street"></input></div>

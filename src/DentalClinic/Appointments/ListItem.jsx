@@ -12,7 +12,7 @@ export function ListItem({ appointment, i }) {
         let enrollment = e.target.enrollment.value
 
         var getHeaders = new Headers();
-        getHeaders.append("Authorization", "Bearer " + localStorage.getItem("jwt"));
+        getHeaders.append("Authorization", "Bearer " + sessionStorage.getItem("jwt"));
 
         var getRequestOptions = {
             method: 'GET',
@@ -39,7 +39,7 @@ export function ListItem({ appointment, i }) {
 
 
             var getHeaders = new Headers();
-            getHeaders.append("Authorization", "Bearer " + localStorage.getItem("jwt"));
+            getHeaders.append("Authorization", "Bearer " + sessionStorage.getItem("jwt"));
 
             var getRequestOptions = {
                 method: 'GET',
@@ -64,7 +64,7 @@ export function ListItem({ appointment, i }) {
         const sendRequest = () => {
 
             var putHeaders = new Headers();
-            putHeaders.append("Authorization", "Bearer " + localStorage.getItem("jwt"));
+            putHeaders.append("Authorization", "Bearer " + sessionStorage.getItem("jwt"));
             putHeaders.append("Content-Type", "application/json");
 
             var raw = JSON.stringify({
@@ -101,7 +101,7 @@ export function ListItem({ appointment, i }) {
         
         //DELETING DENTIST
         var deleteHeaders = new Headers();
-        deleteHeaders.append("Authorization", "Bearer " + localStorage.getItem("jwt"));
+        deleteHeaders.append("Authorization", "Bearer " + sessionStorage.getItem("jwt"));
 
         var requestOptions = {
             method: 'DELETE',

@@ -8,7 +8,7 @@ const List = () => {
     // const [loading, setLoading] = useState(false); // Not enough time response to need it
     const refresh = () => {
         var myHeaders = new Headers();
-        myHeaders.append("Authorization", "Bearer " + localStorage.getItem("jwt"));
+        myHeaders.append("Authorization", "Bearer " + sessionStorage.getItem("jwt"));
 
         var requestOptions = {
             method: 'GET',
@@ -27,7 +27,7 @@ const List = () => {
             .catch(error => {
                 //setLoading(false);
                 console.log('error', error)
-                console.log(localStorage.getItem("jwt"));
+                console.log(sessionStorage.getItem("jwt"));
             });
     }
     useEffect(() => {

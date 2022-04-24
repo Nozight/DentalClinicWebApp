@@ -8,7 +8,7 @@ const List = () => {
     // const [loading, setLoading] = useState(false); // Not enough time response to need it
     const refresh = () => {
         var myHeaders = new Headers();
-        myHeaders.append("Authorization", "Bearer " + localStorage.getItem("jwt"));
+        myHeaders.append("Authorization", "Bearer " + sessionStorage.getItem("jwt"));
 
         var requestOptions = {
             method: 'GET',
@@ -27,7 +27,7 @@ const List = () => {
             .catch(error => {
                 //setLoading(false);
                 console.log('error', error)
-                console.log(localStorage.getItem("jwt"));
+                console.log(sessionStorage.getItem("jwt"));
             });
     }
     useEffect(() => {
@@ -55,7 +55,7 @@ const List = () => {
 
         // GETTING PATIENT
         var getHeaders = new Headers();
-        getHeaders.append("Authorization", "Bearer " + localStorage.getItem("jwt"));
+        getHeaders.append("Authorization", "Bearer " + sessionStorage.getItem("jwt"));
 
         var getRequestOptions = {
             method: 'GET',
@@ -81,7 +81,7 @@ const List = () => {
         
         const updatePatient = () => {
             var putHeaders = new Headers();
-        putHeaders.append("Authorization", "Bearer " + localStorage.getItem("jwt"));
+        putHeaders.append("Authorization", "Bearer " + sessionStorage.getItem("jwt"));
         putHeaders.append("Content-Type", "application/json");
 
             var raw = JSON.stringify({
